@@ -1,4 +1,5 @@
 var apiKey = "130e45b8035df0b2f3d2389f4fb66852"
+var archive = JSON.parse(window.localStorage.getItem("archive")) || [];
 
 $(document).ready(function(){
     $("#search-btn").on("click", function (){
@@ -25,14 +26,14 @@ $(document).ready(function(){
             success: function(data) {
                 console.log(data);
                 if (archive.indexOf(cityInput) === -1) {
+                    archive.push(cityInput);
+                    window.localStorage.setItem("archive", JSON.stringify(archive))
                     listItems(cityInput);
                 }
             }
         })
         
     }
-
-    var archive = JSON.parse(window.localStorage.getItem("archive")) || [];
 
     if (archive.length < 0) {
         searchWeatherInfo(archive[archive.length - 1]);
