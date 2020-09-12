@@ -118,14 +118,14 @@ $(document).ready(function () {
                         var card = $("<div>").addClass("card bg-primary text-white");
                         var body = $("<div>").addClass("card-body p-2");
                         var img = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png");
-                        var p1 = $("<p>").addClass("card-text").text("Temp: " + data.list[i].main.temp_max + " °F");
-                        var p2 = $("<p>").addClass("card-text").text("Humidity: " + data.list[i].main.humidity + "%");
+                        var forecastTemp = $("<p>").addClass("card-text").text("Temp: " + data.list[i].main.temp_max + " °F");
+                        var forecastHumid = $("<p>").addClass("card-text").text("Humidity: " + data.list[i].main.humidity + "%");
                         var dateFormat = moment(data.list[i].dt_txt).format("L");
                         var forecastDates = $("<p>").addClass("card-text").text(dateFormat);
 
                         col.append(card)
                         card.append(body)
-                        body.append(forecastDates,img, p1, p2);
+                        body.append(forecastDates,img, forecastTemp, forecastHumid);
     
                         $("#forecast .row").append(col);
                     }
