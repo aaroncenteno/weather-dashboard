@@ -74,6 +74,14 @@ $(document).ready(function () {
 
                 $("#weather-today").append(card);
 
+            },
+
+            // Error Function For Failed Fetch
+            error: function(xhr, ajaxOptions, thrownError){
+                if(xhr.status == 404) {
+                    alert("Search Failed! Please Try Again.");
+                    return;
+                }
             }
         })
     }
