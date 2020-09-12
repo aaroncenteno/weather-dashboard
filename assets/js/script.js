@@ -43,7 +43,7 @@ $(document).ready(function () {
     function searchWeatherInfo(cityInput) {
         $.ajax({
             method: "GET",
-            url: "http://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&APPID=" + apiKey + "&units=imperial",
+            url: "https://api.openweathermap.org/data/2.5/weather?q=" + cityInput + "&APPID=" + apiKey + "&units=imperial",
             dataType: "json",
             success: function (data) {
                 // On Successful Fetch use data coordinates of longitude and lattitude to fetch UV Index
@@ -80,7 +80,7 @@ $(document).ready(function () {
                 var card = $("<div>").addClass("card")
                 var cardBody = $("<div>").addClass("card-body")
                 var title = $("<h2>").text("City: " + data.name + " (" + currentDate + ")")
-                var img = $("<img>").attr("src", "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png")
+                var img = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.weather[0].icon + ".png")
                 var temp = $("<h6>").addClass("card-text ").css('paddingTop', '20px').text("Temperature: " + data.main.temp + " °F")
                 var humidity = $("<h6>").addClass("card-text").css('paddingTop', '20px').text("Humidity: " + data.main.humidity + " %")
                 var wind = $("<h6>").addClass("card-text").css('paddingTop', '20px').text("Wind Speed " + data.wind.speed + " MPH")
@@ -117,7 +117,7 @@ $(document).ready(function () {
                         var col = $("<div>").addClass("col-md-2");
                         var card = $("<div>").addClass("card bg-primary text-white");
                         var body = $("<div>").addClass("card-body p-2");
-                        var img = $("<img>").attr("src", "http://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png");
+                        var img = $("<img>").attr("src", "https://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png");
                         var p1 = $("<p>").addClass("card-text").text("Temp: " + data.list[i].main.temp_max + " °F");
                         var p2 = $("<p>").addClass("card-text").text("Humidity: " + data.list[i].main.humidity + "%");
                         var dateFormat = moment(data.list[i].dt_txt).format("L");
