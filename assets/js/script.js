@@ -4,11 +4,27 @@ var currentDate = moment().format("L");
 
 // On Search Button Click or Enter Begin Fetch Call
 $(document).ready(function () {
+
+    // On Click of Search Button
     $("#search-btn").on("click", function () {
-        // event.preventDefault();
         var cityInput = $("#city-input").val();
         $("#city-input").val("")
         searchWeatherInfo(cityInput);
+    })
+
+    // On Keypress Enter
+    $("#city-input").on("keypress", function (e) {
+        if (e.which == 13) {
+        var cityInput = $("#city-input").val();
+        $("#city-input").val("")
+        searchWeatherInfo(cityInput);
+        }
+    })
+
+    // Clear local storage
+    $("#clear-btn").on("click", function () {
+        localStorage.clear();
+        location.reload();
     })
 
     // On Click of Past Searches Load Data
@@ -20,8 +36,9 @@ $(document).ready(function () {
     function listItems(citiesHistory) {
         var li = $("<li>").addClass("list-group-item list-group-item-action").text(citiesHistory);
         $(".archive").append(li);
+
     }
-    
+
     // Fetch Data from API
     function searchWeatherInfo(cityInput) {
         $.ajax({
@@ -79,7 +96,7 @@ $(document).ready(function () {
 
             // Error Function For Failed Fetch
             error: function(xhr, ajaxOptions, thrownError){
-                if(xhr.status == 404) {
+                if(xhr.status >= 400) {
                     alert("Search Failed! Please Try Again.");
                     return;
                 }
