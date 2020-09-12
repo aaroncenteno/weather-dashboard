@@ -49,6 +49,7 @@ $(document).ready(function () {
                         cardBody.append(uvIndex);
                     }
                 })
+                
 
                 // After Successful Fetch Create Elements using data 
                 console.log(data);
@@ -94,21 +95,6 @@ $(document).ready(function () {
             success: function (data) {
                 $("#forecast").html("<h4 class=\"mt-3\">5-Day Forecast:</h4>").append("<div class=\"row\">");
                 
-                
-                datesArr = [
-                moment().add(1, 'days').format("L"),
-                moment().add(2, 'days').format("L"),
-                moment().add(3, 'days').format("L"),
-                moment().add(4, 'days').format("L"),
-                moment().add(5, 'days').format("L"),
-                ];          
-                for (i = 0; i < datesArr.length; i++) {
-                    // var forecastDates = $("<p>").addClass("card-text").text();
-                    
-                }
-                
-                
-                
                 for (i = 0; i < data.list.length; i++) {
                     if (data.list[i].dt_txt.indexOf("15:00:00") !== -1) {
                         var col = $("<div>").addClass("col-md-2");
@@ -117,11 +103,9 @@ $(document).ready(function () {
                         var img = $("<img>").attr("src", "http://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png");
                         var p1 = $("<p>").addClass("card-text").text("Temp: " + data.list[i].main.temp_max + " °F");
                         var p2 = $("<p>").addClass("card-text").text("Humidity: " + data.list[i].main.humidity + "%");
-                        var localeDate = data.list[i].dt_txt;
-                        var forecastDates = $("<p>").addClass("card-text").text(data.list[i].dt_txt);
+                        var dateFormat = moment(data.list[i].dt_txt).format("L");
+                        var forecastDates = $("<p>").addClass("card-text").text(dateFormat);
 
-                        
-    
                         col.append(card)
                         card.append(body)
                         body.append(forecastDates,img, p1, p2);
