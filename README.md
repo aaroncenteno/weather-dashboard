@@ -25,7 +25,7 @@ Shortcut Icon Made by Pixel Buddha from www.flaticon.com
 
 ## Screen Shot of live URL
 
-(/assets/imgs/weather-dashboard.png"Live URL")
+![Screenshot of live URL](/assets/imgs/weather-dashboard.png "Live Application")
 
 ## Link
 
