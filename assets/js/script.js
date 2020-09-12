@@ -1,6 +1,25 @@
 var apiKey = "130e45b8035df0b2f3d2389f4fb66852"
 var archive = JSON.parse(window.localStorage.getItem("archive")) || [];
 var currentDate = moment().format("L");
+var uvIndex = function (lat, lon) {
+    fetch ("https://api.openweathermap.org/data/2.5/uvi?appid=" + apiKey + "&lat=" + lat + "&lon=" + lon) 
+    .then (function (response){
+        return response.json();
+    })
+    .then (function (data){
+        console.log(data);
+        var uviContainer = document.getElementById("uv-index");
+        // uviContainer.setAttribute("class", "Uvi-Container");
+        var uviP = document.createElement("p");
+        var uviBtn = document.createElement("button");
+        var currentUvi = data.value;
+        uviP.innerText = "UV Index: "
+        uviBtn.innerText = currentUvi;
+        uviContainer.appendChild(uviP);
+        uviP.appendChild(uviBtn);
+    })
+    
+}
 
 $(document).ready(function () {
     $("#search-btn").on("click", function () {
@@ -35,12 +54,15 @@ $(document).ready(function () {
                 var card = $("<div>").addClass("card")
                 var cardBody = $("<div>").addClass("card-body")
                 var title = $("<h4>").text("City: " + data.name + " (" + currentDate + ")")
-                var temp = $("<div>").addClass("card-text").text("Temperature: " + data.main.temp)
-                var humidity = $("<div>").addClass("card-text").text("Humidity: " + data.main.humidity)
-                var wind = $("<div>").addClass("card-text").text("Wind Speed " + data.wind.speed)
                 var img = $("<img>").attr("src", "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png")
+                var temp = $("<div>").addClass("card-text").css('paddingTop', '20px').text("Temperature: " + data.main.temp)
+                var humidity = $("<div>").addClass("card-text").css('paddingTop', '20px').text("Humidity: " + data.main.humidity)
+                var wind = $("<div>").addClass("card-text").css('paddingTop', '20px').text("Wind Speed " + data.wind.speed)
+                uvIndex(data.coord.lat, data.coord.lon);
+                var uviContainer = $("#uv-index").addClass("card-text").css('paddingTop', '20px')
 
-                cardBody.append(title, temp, humidity, wind, img);
+                title.append(img);
+                cardBody.append(title, temp, humidity, wind, uviContainer);
                 card.append(cardBody);
 
                 $("#weather-today").append(card);
