@@ -36,7 +36,7 @@ $(document).ready(function () {
                     dataType: "json",
                     success: function(data) {
                         var uviBtn = $("<button>").addClass("btn").attr("type", "submit").text(data.value)
-                        var uvIndex = $("<div>").addClass("card-text").css('paddingTop', '20px').text("UV Index: ")
+                        var uvIndex = $("<h6>").addClass("card-text").css('paddingTop', '20px').text("UV Index: ")
 
                         if (data.value < 4) {
                             uviBtn.addClass("btn-success");
@@ -61,11 +61,11 @@ $(document).ready(function () {
                 $("#weather-today").empty();
                 var card = $("<div>").addClass("card")
                 var cardBody = $("<div>").addClass("card-body")
-                var title = $("<h4>").text("City: " + data.name + " (" + currentDate + ")")
+                var title = $("<h2>").text("City: " + data.name + " (" + currentDate + ")")
                 var img = $("<img>").attr("src", "http://openweathermap.org/img/w/" + data.weather[0].icon + ".png")
-                var temp = $("<div>").addClass("card-text").css('paddingTop', '20px').text("Temperature: " + data.main.temp + " °F")
-                var humidity = $("<div>").addClass("card-text").css('paddingTop', '20px').text("Humidity: " + data.main.humidity + " %")
-                var wind = $("<div>").addClass("card-text").css('paddingTop', '20px').text("Wind Speed " + data.wind.speed + " MPH")
+                var temp = $("<h6>").addClass("card-text ").css('paddingTop', '20px').text("Temperature: " + data.main.temp + " °F")
+                var humidity = $("<h6>").addClass("card-text").css('paddingTop', '20px').text("Humidity: " + data.main.humidity + " %")
+                var wind = $("<h6>").addClass("card-text").css('paddingTop', '20px').text("Wind Speed " + data.wind.speed + " MPH")
         
                 // Append Children To Parent Element
                 title.append(img);
@@ -73,7 +73,7 @@ $(document).ready(function () {
                 card.append(cardBody);
 
                 $("#weather-today").append(card);
-
+                forecast(cityInput);
             },
 
             // Error Function For Failed Fetch
@@ -81,6 +81,53 @@ $(document).ready(function () {
                 if(xhr.status == 404) {
                     alert("Search Failed! Please Try Again.");
                     return;
+                }
+            }
+        })
+    }
+
+    function forecast(cityInput) {
+        $.ajax({
+            type: "GET",
+            url: "https://api.openweathermap.org/data/2.5/forecast?q=" + cityInput + "&appid=" + apiKey + "&units=imperial",
+            dataType: "json",
+            success: function (data) {
+                $("#forecast").html("<h4 class=\"mt-3\">5-Day Forecast:</h4>").append("<div class=\"row\">");
+                
+                
+                datesArr = [
+                moment().add(1, 'days').format("L"),
+                moment().add(2, 'days').format("L"),
+                moment().add(3, 'days').format("L"),
+                moment().add(4, 'days').format("L"),
+                moment().add(5, 'days').format("L"),
+                ];          
+                for (i = 0; i < datesArr.length; i++) {
+                    // var forecastDates = $("<p>").addClass("card-text").text();
+                    
+                }
+                
+                
+                
+                for (i = 0; i < data.list.length; i++) {
+                    if (data.list[i].dt_txt.indexOf("15:00:00") !== -1) {
+                        var col = $("<div>").addClass("col-md-2");
+                        var card = $("<div>").addClass("card bg-primary text-white");
+                        var body = $("<div>").addClass("card-body p-2");
+                        var img = $("<img>").attr("src", "http://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png");
+                        var p1 = $("<p>").addClass("card-text").text("Temp: " + data.list[i].main.temp_max + " °F");
+                        var p2 = $("<p>").addClass("card-text").text("Humidity: " + data.list[i].main.humidity + "%");
+                        var localeDate = data.list[i].dt_txt;
+                        var forecastDates = $("<p>").addClass("card-text").text(data.list[i].dt_txt);
+
+                        
+    
+                        col.append(card)
+                        card.append(body)
+                        body.append(forecastDates,img, p1, p2);
+    
+                        $("#forecast .row").append(col);
+                    }
                 }
             }
         })
